@@ -1,0 +1,13 @@
+# Sensitive Data
+.env
+backend/.env
+
+# Python
+__pycache__/
+*.pyc
+venv/
+
+# Node/React
+node_modules/
+dist/
+.DS_Store
