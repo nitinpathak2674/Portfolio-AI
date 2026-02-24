@@ -11,8 +11,12 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Pehle Environment Variables se uthayega, nahi toh fallback value use karega
-MY_API_KEY = os.getenv("GOOGLE_API_KEY", "AIzaSyDbtXrhNtNWSjd8BsvO5YMFzoRpw-UogsU") 
-MY_MONGO_URI = os.getenv("MONGO_URI", "mongodb+srv://nitin:o7qqp5n0D2dQuhBj@cluster0.vd3xrxz.mongodb.net/PortfolioAI?retryWrites=true&w=majority&appName=Cluster0")
+# --- CONFIGURATION (Safe & Deployment Ready) ---
+load_dotenv()
+
+# Fallback values ko poori tarah hata diya hai
+MY_API_KEY = os.getenv("GOOGLE_API_KEY") 
+MY_MONGO_URI = os.getenv("MONGO_URI")
 app = FastAPI()
 
 app.add_middleware(
