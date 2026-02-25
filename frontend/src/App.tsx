@@ -82,7 +82,7 @@ function App() {
         </div>
       </div>
 
-      {/* Skills Grid */}
+    
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl z-10 mb-20">
         {Object.keys(skillDetails).map((key) => (
           <div key={key} onClick={() => setActiveSkill(skillDetails[key])} className={`bg-white/5 border border-white/10 p-8 rounded-[2.5rem] cursor-pointer hover:border-blue-500/50 hover:bg-blue-600/5 transition-all group relative overflow-hidden ${key === 'Tools' ? 'lg:col-span-2' : ''}`}>
@@ -146,7 +146,7 @@ function App() {
         </div>
       </div>
 
-      {/* Let's Connect & Footer */}
+    
       <div className="w-full max-w-6xl z-10 mb-10 px-4">
         <div className="bg-gradient-to-b from-white/5 to-transparent border border-white/10 rounded-[3rem] p-10 md:p-16">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
@@ -181,7 +181,7 @@ function App() {
         </div>
       </div>
 
-      {/* Skill Modal */}
+      
       {activeSkill && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-[200] flex items-center justify-center p-4">
           <div className="bg-[#111625] border border-white/10 p-8 md:p-10 rounded-[3rem] max-w-lg w-full relative">
@@ -203,7 +203,7 @@ function App() {
         </div>
       )}
 
-      {/* AI Bot Chat Window */}
+     
       {isOpen && (
         <div className="fixed bottom-6 right-6 w-[350px] sm:w-[400px] h-[550px] bg-[#111625] border border-white/10 rounded-[2.5rem] shadow-2xl flex flex-col z-[150] overflow-hidden">
           <div className="p-6 bg-[#1a2134] flex justify-between items-center">
