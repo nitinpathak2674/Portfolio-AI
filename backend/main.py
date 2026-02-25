@@ -7,14 +7,13 @@ from motor.motor_asyncio import AsyncIOMotorClient
 from datetime import datetime
 from dotenv import load_dotenv
 
-# --- CONFIGURATION (Safe & Deployment Ready) ---
+
 load_dotenv()
 
-# Pehle Environment Variables se uthayega, nahi toh fallback value use karega
-# --- CONFIGURATION (Safe & Deployment Ready) ---
+
 load_dotenv()
 
-# Fallback values ko poori tarah hata diya hai
+
 MY_API_KEY = os.getenv("GOOGLE_API_KEY") 
 MY_MONGO_URI = os.getenv("MONGO_URI")
 app = FastAPI()
@@ -34,9 +33,9 @@ db = client_db.PortfolioAI
 async def startup_db_client():
     try:
         await client_db.admin.command('ping')
-        print("✅ DATABASE CONNECTED")
+        print("DATABASE CONNECTED")
     except Exception as e:
-        print(f"❌ DATABASE ERROR: {e}")
+        print(f"DATABASE ERROR: {e}")
 
 NITIN_DATA = """
 1. EDUCATION: BCA from Amrapali Group of Institutes (68%), XII from SVM Ramnagar (59%), X from Ashish Modern (69%).
@@ -64,7 +63,7 @@ async def chat(request: ChatRequest):
                                if 'generateContent' in m.get('supportedGenerationMethods', [])]
             best_model = next((m for m in available_models if "flash" in m), available_models[0])
 
-            # --- UPDATED SMART HYBRID INSTRUCTIONS ---
+           
             system_instruction = (
                 "ROLE: You are Nitin's Official AI Digital Twin.\n"
                 "STRICT BEHAVIOR RULES:\n"
@@ -102,12 +101,12 @@ async def chat(request: ChatRequest):
             return {"reply": "Server taking load please try again later!"}
 
         except Exception as e:
-            print(f"🔥 ERROR: {str(e)}")
+            print(f" ERROR: {str(e)}")
             raise HTTPException(status_code=500, detail="Internal Server Error")
 
 if __name__ == "__main__":
     import uvicorn
     import os
-    # Port ko environment variable se uthana zaroori hai deployment ke liye
+
     port = int(os.environ.get("PORT", 8000)) 
     uvicorn.run(app, host="0.0.0.0", port=port)
