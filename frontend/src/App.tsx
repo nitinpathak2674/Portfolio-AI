@@ -76,7 +76,7 @@ function App() {
         <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-10 italic font-medium">Full-Stack Developer crafting digital intelligence.</p>
         <div className="flex gap-4 justify-center flex-wrap">
           <button onClick={() => setIsOpen(true)} className="bg-blue-600 px-8 py-4 rounded-2xl font-bold flex items-center gap-2 hover:bg-blue-500 transition-all shadow-lg shadow-blue-600/20"><Bot size={20}/> Talk to AI</button>
-          <a href="/nitin-pathak.pdf" download="nitin-pathak.pdf" className="bg-white/5 border border-white/10 px-8 py-4 rounded-2xl font-bold flex items-center gap-2 hover:bg-white/10 transition-all cursor-pointer">
+          <a href="/nitin-resume-new.pdf" download="nitin-resume-new.pdf" className="bg-white/5 border border-white/10 px-8 py-4 rounded-2xl font-bold flex items-center gap-2 hover:bg-white/10 transition-all cursor-pointer">
             <Download size={20}/> Download CV
           </a>
         </div>
