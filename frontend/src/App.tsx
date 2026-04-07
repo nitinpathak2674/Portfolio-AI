@@ -32,8 +32,8 @@ function App() {
   const projects = [
     { title: "Real-time Attendance System", tech: "Node.js, Rest API, JWT, React.Js", desc: "Developed an Admin-only Attendance Tracker using React.js that allows secure login and efficient attendance management.", link: "https://attendance-tracker-nu-tan.vercel.app/" },
     { title: "E-Commerce-Website", tech: "React.js, Tailwind CSS, Redux", desc: "Developed a responsive E-Commerce web application using React.js with product listing and cart management.", link: "https://my-e-commerce-eta-jet.vercel.app/" },
-    { title: "User Authentication System (MERN)", tech: "Express.js, MongoDB, React.Js+ Node.js", desc: "Developed a full-stack user authentication system. Implemented secure user registration and login functionality.", link: "https://mernfront-one.vercel.app/" },
-    { title: "Portfolio Overview", tech: "HTML, CSS, Javascript and UI/UX", desc: "A clean and modern layout with sections for Home, About, Skills, Work/Projects, and Contact.", link: "https://nitinpathak2674.github.io/My-Portfolio/" },
+    { title: "Movie Insight Builder", tech: "Next.js, API Integration, Gemini AI, IMDb ID", desc: "Developed an AI Movie Insight Builder that fetches movie data via IMDb ID and generates intelligent audience sentiment analysis using Gemini AI.", link: "https://brew-assignment-eight.vercel.app/" },
+   
   ];
 
   const certifications = [
