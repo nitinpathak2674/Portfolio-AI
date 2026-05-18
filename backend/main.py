@@ -103,7 +103,7 @@ async def chat(request: ChatRequest):
             response = await client.post(
                 chat_url,
                 json=payload,
-                timeout=30.0
+                timeout=5.0
             )
 
             result = response.json()
