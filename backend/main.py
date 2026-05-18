@@ -56,21 +56,7 @@ async def health():
 async def chat(request: ChatRequest):
     async with httpx.AsyncClient() as client:
         try:
-            list_url = f"https://generativelanguage.googleapis.com/v1beta/models?key={MY_API_KEY}"
-
-            list_res = await client.get(list_url)
-            models_data = list_res.json()
-
-            available_models = [
-                m['name']
-                for m in models_data.get('models', [])
-                if 'generateContent' in m.get('supportedGenerationMethods', [])
-            ]
-
-            best_model = next(
-                (m for m in available_models if "flash" in m),
-                available_models[0]
-            )
+            best_model = "models/gemini-1.5-flash"
 
             system_instruction = (
                 "ROLE: You are Nitin's Official AI Digital Twin.\n"
