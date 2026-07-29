@@ -1,6 +1,6 @@
 import os
 import httpx
-http_client = httpx.AsyncClient(timeout=20.0, http2=True)
+http_client = httpx.AsyncClient(timeout=20.0)
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -111,7 +111,7 @@ async def chat(request: ChatRequest):
                 status_code=500,
                 detail="Internal Server Error"
             )
-            
+
 @app.on_event("shutdown")
 async def shutdown():
     await http_client.aclose()
