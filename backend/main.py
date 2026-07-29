@@ -1,5 +1,6 @@
 import os
 import httpx
+http_client = httpx.AsyncClient(timeout=20.0, http2=True)
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -54,39 +55,20 @@ async def health():
 
 @app.post("/chat")
 async def chat(request: ChatRequest):
-    async with httpx.AsyncClient() as client:
         try:
-            list_url = f"https://generativelanguage.googleapis.com/v1beta/models?key={MY_API_KEY}"
+            MODEL = "models/gemini-2.5-flash"
 
-            list_res = await client.get(list_url)
-            models_data = list_res.json()
-
-            available_models = [
-                m['name']
-                for m in models_data.get('models', [])
-                if 'generateContent' in m.get('supportedGenerationMethods', [])
-            ]
-
-            best_model = next(
-                (m for m in available_models if "flash" in m),
-                available_models[0]
+            chat_url = (
+                f"https://generativelanguage.googleapis.com/v1beta/"
+                f"{MODEL}:generateContent?key={MY_API_KEY}"
             )
 
             system_instruction = (
-                "ROLE: You are Nitin's Official AI Digital Twin.\n"
-                "STRICT BEHAVIOR RULES:\n"
-                "1. INTERVIEWER LOCK: If the user is acting as an 'Interviewer' or has started asking about Nitin's background (Education, Skills, etc.), "
-                "you MUST remain in Formal Professional English for the ENTIRE duration of the chat.\n"
-                "2. NO CASUAL SWITCH: Do NOT use Hinglish, 'Bhai', or 'Are' even if the user asks personal questions like 'Family' or 'Hobbies'.\n"
-                "3. OUT OF SCOPE: If asked about Nitin's family or private life, reply professionally: "
-                "'I apologize, but I am programmed to discuss Nitin's professional portfolio, skills, and academic background only. "
-                "Would you like to know more about his projects or certifications?'\n"
-                "4. GREETINGS: Even for 'Hi' or 'Hey' during an interview, reply: "
-                "'Hello! How may I assist you further with Nitin's credentials?'\n\n"
-                f"KNOWLEDGE BASE: {NITIN_DATA}"
+                "You are Nitin's Official AI Digital Twin.\n"
+                "If the conversation is an interview, always reply in professional English.\n"
+                "If asked about personal life, politely say you only discuss Nitin's professional profile.\n\n"
+                f"Knowledge:\n{NITIN_DATA}"
             )
-
-            chat_url = f"https://generativelanguage.googleapis.com/v1beta/{best_model}:generateContent?key={MY_API_KEY}"
 
             payload = {
                 "contents": [
@@ -100,16 +82,15 @@ async def chat(request: ChatRequest):
                 ]
             }
 
-            response = await client.post(
+            response = await http_client.post(
                 chat_url,
-                json=payload,
-                timeout=5.0
+                json=payload
             )
 
             result = response.json()
 
             if "candidates" in result:
-                reply = result['candidates'][0]['content']['parts'][0]['text']
+                reply = result["candidates"][0]["content"]["parts"][0]["text"]
 
                 try:
                     await db.chats.insert_one({
@@ -117,19 +98,25 @@ async def chat(request: ChatRequest):
                         "ai": reply,
                         "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                     })
-                except:
+                except Exception:
                     pass
 
                 return {"reply": reply}
 
-            return {"reply": "Server taking load please try again later!"}
+            return {"reply": "Server taking load, please try again later!"}
 
         except Exception as e:
-            print(f"ERROR: {str(e)}")
+            print(f"ERROR: {e}")
             raise HTTPException(
                 status_code=500,
                 detail="Internal Server Error"
             )
+            
+@app.on_event("shutdown")
+async def shutdown():
+    await http_client.aclose()
+    client_db.close()
+            
 
 if __name__ == "__main__":
     import uvicorn
